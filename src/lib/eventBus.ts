@@ -1,0 +1,16 @@
+import mitt from "mitt"
+import {INode} from "@/type/node.ts";
+import {ILabel} from "@/type/label.ts";
+import {ITunnel} from "@/type/tunnel.ts";
+
+type Events = {
+    "tunnel_update": void | { label: number },
+    "tunnel_contextmenu": { label: ILabel[] | null, item: ITunnel },
+    "tunnel_add_update": void | { label: number },
+    "tunnel_add_tcp_udp": { protocol: string, node_id: number, node_name: string, node_ip: string, node_port: number },
+    "tunnel_add_http_https": string,
+    "node_update": void | { label: number },
+    "node_contextmenu": { label: ILabel[] | null, item: INode },
+}
+
+export const emitter = mitt<Events>()
