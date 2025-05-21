@@ -101,11 +101,14 @@ async function editTunnelStatusClick() {
           data.node_ip,
           "-P",
           data.node_port.toString(),
-          "-r",
-          data.remote_port!.toString(),
       ];
 
-      if (data.domain) config.push("-d", data.domain);
+      if (data.remote_port) config.push("-r", data.remote_port.toString());
+      if (data.domain) {
+        data.domain.split(" ").forEach((item) => {
+          config.push("-d", item);
+        });
+      }
       if (data.encrypt) config.push("--ue");
       if (data.compress) config.push("--uc");
 

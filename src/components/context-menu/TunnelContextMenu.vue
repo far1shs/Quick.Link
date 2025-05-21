@@ -8,7 +8,7 @@
         <IconContentCopyOutlineRounded/>
         复制地址
       </ContextMenuItem>
-      <ContextMenuItem>
+      <ContextMenuItem @click="emitter.emit('tunnel_edit', item!)">
         <IconEditOutlineRounded/>
         编辑
       </ContextMenuItem>
@@ -29,10 +29,12 @@
             {{ _item.label }}
           </ContextMenuItem>
           <ContextMenuSeparator/>
-          <ContextMenuItem>
-            <IconSettingsOutlineRounded/>
-            管理
-          </ContextMenuItem>
+          <RouterLink :to="{ path: '/label-manage', query: { type: 'tunnel' } }">
+            <ContextMenuItem>
+              <IconSettingsOutlineRounded/>
+              管理
+            </ContextMenuItem>
+          </RouterLink>
         </ContextMenuSubContent>
       </ContextMenuSub>
       <ContextMenuItem @click="dialogOpen.del = true">
@@ -56,6 +58,8 @@
       </DialogFooter>
     </DialogContent>
   </Dialog>
+
+  <EditTunnelDialog/>
 </template>
 
 <script setup lang="ts">
@@ -93,6 +97,7 @@ import {
 } from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {writeText} from "@tauri-apps/plugin-clipboard-manager";
+import EditTunnelDialog from "@/components/dialog/EditTunnelDialog.vue";
 
 const label = ref<ILabel[] | null>();
 const item = ref<ITunnel | null>(null);

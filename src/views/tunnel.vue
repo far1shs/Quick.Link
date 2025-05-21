@@ -20,7 +20,7 @@
           <div class="flex flex-col">
             <span style="font-size: 14px">{{ item.name }}</span>
             <span style="margin-top: -4px; font-size: 12px" class="opacity-35">
-              {{ item.protocol.toUpperCase() }} {{item.node_name}} - {{ item.node_id}} {{ item.ip }}:{{ item.port }} - {{ item.remote_port }}
+              {{ item.protocol.toUpperCase() }} {{item.node_name}} - {{ item.node_id}} {{ item.ip }}:{{ item.port }} - {{ item.remote_port }} {{ item.domain }}
             </span>
           </div>
           <div class="flex items-center gap-2">
@@ -85,11 +85,14 @@ async function editTunnelStatusClick(value: ITunnel) {
         value.node_ip,
         "-P",
         value.node_port.toString(),
-        "-r",
-        value.remote_port!.toString(),
       ];
 
-      if (value.domain) config.push("-d", value.domain);
+      if (value.remote_port) config.push("-r", value.remote_port.toString());
+      if (value.domain) {
+        value.domain.split(" ").forEach((item) => {
+          config.push("-d", item);
+        });
+      }
       if (value.encrypt) config.push("--ue");
       if (value.compress) config.push("--uc");
 

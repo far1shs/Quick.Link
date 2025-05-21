@@ -8,9 +8,11 @@ type Events = {
     "tunnel_contextmenu": { label: ILabel[] | null, item: ITunnel },
     "tunnel_add_update": void | { label: number },
     "tunnel_add_tcp_udp": { protocol: string, node_id: number, node_name: string, node_ip: string, node_port: number },
-    "tunnel_add_http_https": string,
+    "tunnel_add_http": { protocol: string, node_id: number, node_name: string, node_ip: string, node_port: number },
+    "tunnel_edit": ITunnel,
     "node_update": void | { label: number },
     "node_contextmenu": { label: ILabel[] | null, item: INode },
+    "label_manage_update": { type: "tunnel" | "node" },
 }
 
 export const emitter = mitt<Events>()

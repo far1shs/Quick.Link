@@ -2,7 +2,6 @@ import {createApp} from "vue";
 import App from "./App.vue";
 import "./index.css";
 import {router} from "@/router/router.ts";
-import {TrayIconInit} from "@/lib/tray.ts";
 import {StoreInit} from "@/lib/store.ts";
 
 const app = createApp(App);
@@ -21,4 +20,3 @@ document.addEventListener('contextmenu', (e) => {
 });
 
 StoreInit();
-TrayIconInit();

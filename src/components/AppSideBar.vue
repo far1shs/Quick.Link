@@ -1,5 +1,5 @@
 <template>
-  <Sidebar collapsible="icon">
+  <Sidebar v-if="AppSideBarShow" collapsible="icon">
     <SidebarContent>
       <SidebarGroup>
         <SidebarGroupContent>
@@ -88,6 +88,12 @@
                     设置
                   </DropdownMenuItem>
                 </RouterLink>
+                <RouterLink to="/label-manage">
+                  <DropdownMenuItem>
+                    <IconSellOutline/>
+                    标签管理
+                  </DropdownMenuItem>
+                </RouterLink>
                 <DropdownMenuItem disabled>
                   <IconLogoutRounded/>
                   退出登录
@@ -108,7 +114,8 @@ import {
   IconExtensionOutline,
   IconPersonOutlineRounded,
   IconSettingsOutlineRounded,
-  IconLogoutRounded
+  IconLogoutRounded,
+  IconSellOutline
 } from "@iconify-prerendered/vue-material-symbols";
 import {
   Sidebar,
@@ -130,7 +137,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar";
-import {AppSideBarSelect} from "@/model.ts";
+import {AppSideBarSelect, AppSideBarShow} from "@/model.ts";
 import {ref} from "vue";
 import {IPluginItem} from "@/type/plugin.ts";
 

@@ -31,7 +31,8 @@ pub async fn run_frp(
     config: String,
     app: tauri::AppHandle,
 ) -> Result<Response, Response> {
-    let mut cmd = Command::new("C:\\Users\\heliu\\Downloads\\frpc.exe");
+    let mut cmd = Command::new("./core/frpc.exe");
+    cmd.creation_flags(0x08000000);
     for arg in config.split_whitespace() {
         cmd.arg(arg);
     }
@@ -113,6 +114,7 @@ pub async fn stop_frp(id: u32) -> Result<Response, Response> {
     if let Some(pid) = pid {
         #[cfg(target_os = "windows")]
         let output = Command::new("taskkill")
+            .creation_flags(0x08000000)
             .arg("/F")
             .arg("/PID")
             .arg(pid.to_string())

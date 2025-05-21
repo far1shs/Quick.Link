@@ -3,6 +3,10 @@ export const routes = [
         path: "/",
         redirect: "/tunnel",
     }, {
+        path: "/download",
+        component: () => import("@/views/download.vue"),
+        meta: { title: "下载", value: "download" },
+    }, {
         path: "/tunnel",
         component: () => import("@/views/tunnel.vue"),
         meta: { title: "隧道", value: "tunnel" },
@@ -30,6 +34,10 @@ export const routes = [
         path: "/plugin-install",
         component: () => import("@/views/plugin-install.vue"),
         meta: { title: "插件安装", value: "plugin" },
+    }, {
+        path: "/label-manage",
+        component: () => import("@/views/label-manage.vue"),
+        meta: { title: "标签管理", value: "label-manage" },
     }, {
         path: "/settings",
         component: () => import("@/views/settings.vue"),

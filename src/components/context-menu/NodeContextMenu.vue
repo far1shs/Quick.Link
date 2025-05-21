@@ -14,21 +14,23 @@
           <span style="margin-left: 8px">标签</span>
         </ContextMenuSubTrigger>
         <ContextMenuSubContent class="w-48">
-          <ContextMenuItem @click="editNodeLabel(item!.id, 0)" :inset="item!.label != 0">
+          <ContextMenuItem @click="editNodeLabelClick(item!.id, 0)" :inset="item!.label != 0">
             <IconCheckRounded v-if="item!.label == 0"/>
             默认
           </ContextMenuItem>
           <ContextMenuItem v-for="_item in label"
-                           @click="editNodeLabel(item!.id, _item.value)"
+                           @click="editNodeLabelClick(item!.id, _item.value)"
                            :inset="item!.label != _item.value">
             <IconCheckRounded v-if="item!.label == _item.value"/>
             {{ _item.label }}
           </ContextMenuItem>
           <ContextMenuSeparator/>
-          <ContextMenuItem>
-            <IconSettingsOutlineRounded/>
-            管理
-          </ContextMenuItem>
+          <RouterLink :to="{ path: '/label-manage', query: { type: 'node' } }">
+            <ContextMenuItem>
+              <IconSettingsOutlineRounded/>
+              管理
+            </ContextMenuItem>
+          </RouterLink>
         </ContextMenuSubContent>
       </ContextMenuSub>
       <ContextMenuItem @click="dialogOpen.del = true">
@@ -85,7 +87,7 @@
       </Accordion>
 
       <DialogFooter>
-        <Button @click="editNode(item!.id)" size="sm" class="w-full">
+        <Button @click="editNodeClick(item!.id)" size="sm" class="w-full">
           修改
         </Button>
       </DialogFooter>
@@ -103,7 +105,7 @@
 
       <DialogFooter>
         <Button variant="outline">更换节点后删除</Button>
-        <Button variant="destructive" @click="delNode">直接删除</Button>
+        <Button variant="destructive" @click="delNodeClick">直接删除</Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>
@@ -154,7 +156,7 @@ const dialogOpen = reactive({
   del: false
 });
 
-async function editNode(id: number) {
+async function editNodeClick(id: number) {
   const store = await Store.load("node.json", {
     autoSave: true,
   });
@@ -167,10 +169,11 @@ async function editNode(id: number) {
 
     dialogOpen.edit = false;
     emitter.emit("node_update");
+    toast.success("修改成功");
   }
 }
 
-async function editNodeLabel(id: number, label: number) {
+async function editNodeLabelClick(id: number, label: number) {
   const store = await Store.load("node.json", {
     autoSave: true,
   });
@@ -184,7 +187,7 @@ async function editNodeLabel(id: number, label: number) {
   }
 }
 
-async function delNode() {
+async function delNodeClick() {
   const store = await Store.load("node.json", {
     autoSave: true,
   });

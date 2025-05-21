@@ -16,7 +16,9 @@
           {{ item.ip }}:{{ item.port }}</span>
       </div>
       <div class="flex items-center gap-2">
-        <div class="w-5 h-5 p-[2px]"><IconKeyRounded v-if="item.token"/></div>
+        <div class="w-5 h-5 p-[2px]">
+          <IconKeyRounded v-if="item.token"/>
+        </div>
         <IconPersonOutlineRounded v-if="item.user"/>
       </div>
     </div>
@@ -38,7 +40,8 @@
     </DialogContent>
   </Dialog>
 
-  <TcpUdpTunnel/>
+  <TcpUdpTunnelDialog/>
+  <HTTPTunnelDialog/>
 </template>
 
 <script setup lang="ts">
@@ -57,7 +60,8 @@ import {ILabel} from "@/type/label.ts";
 import {tunnelProtocol} from "@/type/tunnel.ts";
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import TunnelAddAction from "@/components/action/TunnelAddAction.vue";
-import TcpUdpTunnel from "@/components/action/tunnel/TcpUdpTunnel.vue";
+import TcpUdpTunnelDialog from "@/components/dialog/TcpUdpTunnelDialog.vue";
+import HTTPTunnelDialog from "@/components/dialog/HTTPTunnelDialog.vue";
 
 const newTunnelDialogOpen = ref(false);
 
@@ -94,6 +98,8 @@ function protocolClick(value: string) {
 
   if (value == "tcp" || value == "udp") {
     emitter.emit("tunnel_add_tcp_udp", selectData);
+  } else if (value == "http" || value == "https") {
+    emitter.emit("tunnel_add_http", selectData);
   }
 }
 

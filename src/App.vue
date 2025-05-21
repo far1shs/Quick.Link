@@ -19,4 +19,24 @@ import {SidebarProvider} from "@/components/ui/sidebar";
 import AppSideBar from "@/components/AppSideBar.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import {Toaster} from "@/components/ui/sonner";
+import {invoke} from "@tauri-apps/api/core";
+import {onMounted} from "vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
+
+onMounted(async () => {
+  if (await invoke("check_file_exists", {
+    path: "./core/frpc.exe"
+  }) == false) {
+    router.push({
+      path: `/download`,
+      query: {
+        name: "frpc",
+        url: "https://file.rivfox.com/frpc-windows.exe",
+        save_path: "./core/frpc.exe"
+      }
+    })
+  }
+})
 </script>

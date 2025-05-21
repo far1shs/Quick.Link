@@ -21,7 +21,7 @@
     </DropdownMenuContent>
   </DropdownMenu>
 
-  <TcpUdpTunnel/>
+  <TcpUdpTunnelDialog/>
 </template>
 
 <script setup lang="ts">
@@ -39,7 +39,7 @@ import {
 import {onMounted, ref} from "vue";
 import {Store} from "@tauri-apps/plugin-store";
 import {emitter} from "@/lib/eventBus.ts";
-import TcpUdpTunnel from "@/components/action/tunnel/TcpUdpTunnel.vue";
+import TcpUdpTunnelDialog from "@/components/dialog/TcpUdpTunnelDialog.vue";
 import {ILabel} from "@/type/label.ts";
 
 const label = ref<ILabel[] | null>(null);
