@@ -16,7 +16,8 @@
         "width": 900,
         "height": 600,
         "center": true,
-        "decorations": false
+        "decorations": false,
+        "devtools": true
       }
     ],
     "security": {
@@ -37,7 +38,7 @@
   "plugins": {
     "deep-link": {
       "desktop": {
-        "schemes": ["quicklink"]
+        "schemes": ["qlink"]
       }
     }
   }

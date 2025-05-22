@@ -8,7 +8,7 @@ use tauri::Emitter;
 pub async fn download_file(id: u32, url: String, save_path: String, app: tauri::AppHandle) -> Result<(), String> {
     let client = reqwest::Client::new();
     let resp = client.get(&url).send().await.map_err(|e| e.to_string())?;
-    let total_size = resp.content_length().ok_or("Content length not available")?;
+    let total_size = resp.content_length().ok_or("无法获取内容长度")?;
     let mut downloaded: u64 = 0;
 
     // 创建目录（如果不存在）

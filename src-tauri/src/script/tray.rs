@@ -16,6 +16,7 @@ pub fn init(app: AppHandle) -> Result<(), Error> {
     // 创建托盘图标
     let _tray = TrayIconBuilder::new()
         .menu(&menu)
+        .tooltip("Quick Link")
         .show_menu_on_left_click(false)
         .icon(app.default_window_icon().unwrap().clone())
         .on_menu_event(move |handle, event| match event.id.as_ref() {
