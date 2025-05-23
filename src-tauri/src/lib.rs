@@ -1,23 +1,26 @@
 mod script;
 
-use std::path::PathBuf;
+use directories::ProjectDirs;
+use script::download::download_file;
+use script::frp::{get_frp_logs, run_frp, stop_frp};
+use std::path::{PathBuf};
 use tauri::Manager;
 use tauri_plugin_autostart::MacosLauncher;
-use script::download::download_file;
-use script::frp::{run_frp, stop_frp, get_frp_logs};
+
 #[tauri::command]
 fn check_file_exists(path: &str) -> bool {
     std::path::Path::new(path).exists()
 }
 
 #[tauri::command]
-fn get_current_dir() -> Result<String, String> {
-    match std::env::current_dir() {
-        Ok(path) => path.to_str()
-            .map(|s| s.to_string())
-            .ok_or_else(|| "路径包含无效 UTF-8".to_string()),
-        Err(e) => Err(format!("无法获取当前目录: {}", e)),
+fn get_roaming_dir() -> String {
+    if let Some(proj_dirs) = ProjectDirs::from("", "", "icu.far1sh.app.quick-link") {
+        let data_dir = proj_dirs.data_dir();
+        let parent_dir = data_dir.parent().unwrap();
+        return parent_dir.display().to_string();
     }
+
+    return "".parse().unwrap()
 }
 
 #[tauri::command]
@@ -58,7 +61,7 @@ pub fn run() {
             get_frp_logs,
             download_file,
             check_file_exists,
-            get_current_dir,
+            get_roaming_dir,
             join_paths
         ])
         .run(tauri::generate_context!())

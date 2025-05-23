@@ -22,21 +22,36 @@ import {Toaster} from "@/components/ui/sonner";
 import {invoke} from "@tauri-apps/api/core";
 import {onMounted} from "vue";
 import {useRouter} from "vue-router";
+import {toast} from "vue-sonner";
 
 const router = useRouter();
 
 onMounted(async () => {
-  if (await invoke("check_file_exists", {
-    path: "./core/frpc.exe"
-  }) == false) {
-    router.push({
-      path: `/download`,
-      query: {
-        name: "frpc",
-        url: "https://file.rivfox.com/frpc-windows.exe",
-        save_path: "./core/frpc.exe"
-      }
-    })
+  const path = await invoke<string>("get_roaming_dir");
+
+  const core_frpc = await invoke<string>("join_paths", {
+    base: await invoke("join_paths", {
+      base: path,
+      sub: "core"
+    }),
+    sub: "frpc.exe"
+  });
+
+  if (path != "") {
+    if (await invoke("check_file_exists", {
+      path: core_frpc
+    }) == false) {
+      router.push({
+        path: `/download`,
+        query: {
+          name: "frpc",
+          url: "https://file.rivfox.com/frpc-windows.exe",
+          save_path: encodeURIComponent(core_frpc)
+        }
+      })
+    }
+  } else {
+    toast.error("找不到 Roaming 目录, 无法检测 FRP 可用性");
   }
 })
 </script>

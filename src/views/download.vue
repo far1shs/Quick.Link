@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center" style="height: calc(100vh - 80px)">
+    <Progress v-model="downloadValue" class="w-[240px]"/>
     <span v-if="errMessage" class="text-[14px]">{{ errMessage }}</span>
-    <Progress v-else v-model="downloadValue" class="w-[240px]"/>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ onMounted(async () => {
     const download = await invoke<undefined | string>("download_file", {
       id: 1111,
       url: route.query.url,
-      savePath: route.query.save_path
+      savePath: decodeURIComponent(route.query.save_path! as string)
     });
 
     if (download) {
@@ -46,7 +46,7 @@ onMounted(async () => {
       toast.error("下载失败");
     }
   } catch (err) {
-    errMessage.value = err;
+    errMessage.value = err!.toString();
     toast.error("下载失败");
   }
 });
