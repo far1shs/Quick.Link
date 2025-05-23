@@ -41,7 +41,12 @@ pub async fn run_frp(id: u32, config: String, app: tauri::AppHandle) -> Result<R
     path.push("frpc");
 
     let mut cmd = Command::new(path.display().to_string());
-    cmd.creation_flags(0x08000000);
+
+    #[cfg(target_os = "windows")]
+    {
+        cmd.creation_flags(0x08000000);
+    }
+    
     for arg in config.split_whitespace() {
         cmd.arg(arg);
     }
