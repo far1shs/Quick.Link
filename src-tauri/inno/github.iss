@@ -4,6 +4,7 @@
 #define MyAppPublisher "Far1sh"
 #define MyAppURL "https://app.far1sh.icu/quick_link"
 #define MyAppExeName "quicklink.exe"
+#define Path GetEnv('GITHUB_WORKSPACE')
 #define BuildPath GetEnv('GITHUB_WORKSPACE') + "\src-tauri\target\release"
 #define IconsPath GetEnv('GITHUB_WORKSPACE') + "\src-tauri\icons"
 
@@ -31,7 +32,7 @@ WizardStyle=modern
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
-Name: "chinese"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
+Name: "chinese"; MessagesFile: "compiler:{#Path}\src-tauri\inno\ChineseSimplified.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked

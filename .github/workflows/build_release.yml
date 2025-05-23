@@ -31,8 +31,8 @@ jobs:
 
       - name: Build Tauri
         run: |
-          yarn tauri build --target x86_64-pc-windows-msvc
-          ISCC.exe "${GITHUB_WORKSPACE}/src-tauri/installer/windows.iss"
+          yarn tauri build --target x86_64-pc-windows-msvc --no-bundle
+          ISCC.exe "${GITHUB_WORKSPACE}/src-tauri/inno/github.iss"
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -44,7 +44,7 @@ jobs:
 
   linux-x64:
     name: Build Linux x64
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
 
   linux-arm64:
     name: Build Linux ARM64
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
