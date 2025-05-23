@@ -1,6 +1,7 @@
-use std::collections::HashMap;
-use std::sync::{Arc, Mutex};
 use directories::ProjectDirs;
+use std::collections::HashMap;
+use std::path::PathBuf;
+use std::sync::{Arc, Mutex};
 use tauri::Emitter;
 use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command;
@@ -27,16 +28,19 @@ pub struct Response {
 }
 
 #[tauri::command]
-pub async fn run_frp(
-    id: u32,
-    config: String,
-    app: tauri::AppHandle,
-) -> Result<Response, Response> {
+pub async fn run_frp(id: u32, config: String, app: tauri::AppHandle) -> Result<Response, Response> {
     let parent_dir = ProjectDirs::from("", "", "icu.far1sh.app.quick-link")
         .map(|proj_dirs| proj_dirs.data_dir().parent().unwrap().to_path_buf())
         .unwrap_or_default();
-    
-    let mut cmd = Command::new(parent_dir.display().to_string());
+
+    let mut path = PathBuf::from(parent_dir);
+    path.push("core");
+    #[cfg(target_os = "windows")]
+    path.push("frpc.exe");
+    #[cfg(any(target_os = "macos", target_os = "linux"))]
+    path.push("frpc");
+
+    let mut cmd = Command::new(path.display().to_string());
     cmd.creation_flags(0x08000000);
     for arg in config.split_whitespace() {
         cmd.arg(arg);
